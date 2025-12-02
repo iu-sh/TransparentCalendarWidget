@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Transparent Calendar</string>
+    <string name="widget_name">Transparent Calendar</string>
+    <string name="add_event_desc">Add Event</string>
+    <string name="config_title">Widget Configuration</string>
+    <string name="opacity_label">Background Opacity</string>
+    <string name="save_config">Save Widget</string>
+    <string name="no_events">No upcoming events</string>
+    <string name="loading">Loading...</string>
+</resources>

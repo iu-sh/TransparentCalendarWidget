@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "com.antigravity.transparentcalendar.app-mergeDebugResources-30:/layout/widget_calendar.xml",
+        "source": "com.antigravity.transparentcalendar.app-main-33:/layout/widget_calendar.xml"
+    },
+    {
+        "merged": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-mergeDebugResources-30:\\layout\\widget_calendar.xml",
+        "source": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-main-33:\\layout\\widget_calendar.xml"
+    },
+    {
+        "merged": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-mergeDebugResources-30:\\layout\\activity_widget_config.xml",
+        "source": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-main-33:\\layout\\activity_widget_config.xml"
+    },
+    {
+        "merged": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-mergeDebugResources-30:\\layout\\widget_date_header.xml",
+        "source": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-main-33:\\layout\\widget_date_header.xml"
+    },
+    {
+        "merged": "com.antigravity.transparentcalendar.app-mergeDebugResources-30:/layout/widget_event_item.xml",
+        "source": "com.antigravity.transparentcalendar.app-main-33:/layout/widget_event_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-mergeDebugResources-30:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-main-33:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-mergeDebugResources-30:\\layout\\widget_event_item.xml",
+        "source": "C:\\Users\\singh\\.gradle\\daemon\\8.2\\com.antigravity.transparentcalendar.app-main-33:\\layout\\widget_event_item.xml"
+    }
+]
