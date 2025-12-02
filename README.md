@@ -2,6 +2,8 @@
 
 # Transparent Calendar Widget
 
+![Preview](https://photos.fife.usercontent.google.com/pw/AP1GczPojqkymUBHq94T5EvxQVTvYtIVrqzA78h6v9xG-Yg4rNskPuIAptDqeA=w462-h991-s-no-gm?authuser=0)
+
 A modern, transparent, and highly efficient Android Home Screen widget that displays your Google Calendar events. Designed to be minimal, beautiful, and battery-friendly.
 
 ## 🌟 Key Features
