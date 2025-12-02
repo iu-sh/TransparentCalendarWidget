@@ -1,6 +1,6 @@
-# Created by Google Antigravity
-
 # Transparent Calendar Widget
+## (mostly) Created by Google Antigravity
+
 
 ![Preview](screenshots/screenshot.jpg)
 
