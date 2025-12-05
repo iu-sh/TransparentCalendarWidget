@@ -14,7 +14,6 @@ A modern, transparent, and highly efficient Android Home Screen widget that disp
 *   **Auto-Refresh**: Automatically updates when you add/edit events or change timezones.
 *   **Battery Efficient**: Uses Android's `JobScheduler` to wake up *only* when necessary.
 *   **Interactive**: Click events to open them in your Calendar app.
-*   **Live Notifications**: Shows a persistent notification on the Samsung Now Bar (or notification shade) for the duration of active events.
 
 ## 🏗️ Architecture & Components
 
@@ -44,11 +43,6 @@ This project follows standard Android Widget architecture but adds a modern twis
 ### 5. `WidgetConfigActivity.kt`
 *   **Role**: The "Configuration".
 *   **Function**: Launches when you first add the widget. It lets you set preferences (like background opacity) and saves them to `SharedPreferences`.
-
-### 6. `LiveNotificationManager.kt`
-*   **Role**: The "Live Updater".
-*   **Function**: Manages the persistent notification for active events.
-*   **Efficiency**: Uses `AlarmManager` to schedule precise wake-ups at the exact start and end times of events, ensuring the notification is only shown when needed without polling.
 
 ## 🛠️ How It Works Under the Hood
 
