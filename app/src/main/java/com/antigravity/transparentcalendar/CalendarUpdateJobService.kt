@@ -25,7 +25,7 @@ class CalendarUpdateJobService : JobService() {
                     )
                 )
                 // Add a small delay to batch updates if multiple changes happen quickly
-                .setTriggerContentUpdateDelay(500) 
+                .setTriggerContentUpdateDelay(500)
                 .setTriggerContentMaxDelay(2000)
                 .build()
 
@@ -37,27 +37,43 @@ class CalendarUpdateJobService : JobService() {
 
     override fun onStartJob(params: JobParameters?): Boolean {
         Log.d(TAG, "onStartJob: Calendar content changed")
-        
+
         // Trigger widget update
         val appWidgetManager = AppWidgetManager.getInstance(this)
         val componentName = ComponentName(this, CalendarWidgetProvider::class.java)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
-        
+
         if (appWidgetIds.isNotEmpty()) {
             Log.d(TAG, "Updating ${appWidgetIds.size} widgets")
             val intent = Intent(this, CalendarWidgetProvider::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
             sendBroadcast(intent)
-            
+
             // Also notify data changed for the list view
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.event_list)
         }
 
-        // Reschedule the job to keep monitoring
+        // Update live notifications in background thread
+        Thread {
+            try {
+                LiveNotificationManager.refreshNotifications(this)
+            } finally {
+                // Ensure we mark job as finished when the thread completes
+                jobFinished(params, false)
+            }
+        }.start()
+
+        // Reschedule the job to keep monitoring is handled by the initial scheduleJob
+        // which sets up the TriggerContentUri listener. JobScheduler automatically
+        // continues monitoring if we don't cancel it.
+        // But the previous implementation called scheduleJob(this) explicitly.
+        // Let's keep it if that's how they intended persistence, although it might be redundant
+        // for trigger content URI jobs depending on API level.
+        // However, scheduleJob here will just update the job.
         scheduleJob(this)
-        
-        return false // Work is done synchronously
+
+        return true // Work is running asynchronously
     }
 
     override fun onStopJob(params: JobParameters?): Boolean {
