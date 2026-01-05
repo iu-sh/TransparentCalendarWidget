@@ -25,7 +25,7 @@ class CalendarUpdateJobService : JobService() {
                     )
                 )
                 // Add a small delay to batch updates if multiple changes happen quickly
-                .setTriggerContentUpdateDelay(500) 
+                .setTriggerContentUpdateDelay(500)
                 .setTriggerContentMaxDelay(2000)
                 .build()
 
@@ -37,26 +37,29 @@ class CalendarUpdateJobService : JobService() {
 
     override fun onStartJob(params: JobParameters?): Boolean {
         Log.d(TAG, "onStartJob: Calendar content changed")
-        
+
         // Trigger widget update
         val appWidgetManager = AppWidgetManager.getInstance(this)
         val componentName = ComponentName(this, CalendarWidgetProvider::class.java)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
-        
+
         if (appWidgetIds.isNotEmpty()) {
             Log.d(TAG, "Updating ${appWidgetIds.size} widgets")
             val intent = Intent(this, CalendarWidgetProvider::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
             sendBroadcast(intent)
-            
+
             // Also notify data changed for the list view
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.event_list)
         }
 
         // Reschedule the job to keep monitoring
         scheduleJob(this)
-        
+
+        // Schedule next event notification
+        NotificationScheduler.scheduleNextEvent(this)
+
         return false // Work is done synchronously
     }
 
