@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/card_background"
+    android:padding="14dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Color indicator -->
+    <View
+        android:id="@+id/color_indicator"
+        android:layout_width="4dp"
+        android:layout_height="40dp"
+        android:background="#9C27B0" />
+
+    <!-- Event info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/alarm_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Title"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/alarm_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today, 3:00 PM"
+            android:textColor="#909090"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/alarm_snoozed_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SNOOZED"
+            android:textColor="#E91E63"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_marginTop="2dp" />
+
+    </LinearLayout>
+
+    <!-- Dismiss button -->
+    <TextView
+        android:id="@+id/btn_dismiss_alarm"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="✕"
+        android:textColor="#606060"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true" />
+
+</LinearLayout>

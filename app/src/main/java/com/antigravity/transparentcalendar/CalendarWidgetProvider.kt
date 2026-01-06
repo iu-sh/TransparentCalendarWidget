@@ -60,6 +60,23 @@ class CalendarWidgetProvider : AppWidgetProvider() {
                 Log.e("CalendarWidgetProvider", "Error setting button", e)
             }
 
+            // Set up click on widget header to open Calendar app
+            try {
+                val openCalendarIntent = Intent(Intent.ACTION_VIEW)
+                // Use the calendar time URI to open calendar at current time
+                openCalendarIntent.data = Uri.parse("content://com.android.calendar/time/${System.currentTimeMillis()}")
+                
+                val openCalendarPendingIntent = PendingIntent.getActivity(
+                    context,
+                    2, // Unique request code
+                    openCalendarIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+                views.setOnClickPendingIntent(R.id.header_container, openCalendarPendingIntent)
+            } catch (e: Exception) {
+                Log.e("CalendarWidgetProvider", "Error setting calendar open click", e)
+            }
+
             // Set up the collection
             try {
                 val intent = Intent(context, CalendarWidgetService::class.java)

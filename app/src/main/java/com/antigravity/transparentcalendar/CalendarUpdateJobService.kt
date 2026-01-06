@@ -54,6 +54,9 @@ class CalendarUpdateJobService : JobService() {
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.event_list)
         }
 
+        // Schedule alarms for upcoming events
+        EventAlarmScheduler.scheduleUpcomingAlarms(this)
+
         // Reschedule the job to keep monitoring
         scheduleJob(this)
         

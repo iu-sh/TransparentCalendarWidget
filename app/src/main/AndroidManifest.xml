@@ -3,7 +3,15 @@
     package="com.antigravity.transparentcalendar">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +42,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.antigravity.transparentcalendar.NotificationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NotificationFullscreen"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:taskAffinity="" />
+
         <receiver
             android:name="com.antigravity.transparentcalendar.CalendarWidgetProvider"
             android:exported="true"
@@ -45,6 +63,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/calendar_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name="com.antigravity.transparentcalendar.AlarmReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.antigravity.transparentcalendar.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
         </receiver>
 
         <service
@@ -59,3 +90,4 @@
     </application>
 
 </manifest>
+
