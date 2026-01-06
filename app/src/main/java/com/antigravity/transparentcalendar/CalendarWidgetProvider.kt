@@ -37,22 +37,53 @@ class CalendarWidgetProvider : AppWidgetProvider() {
             // Set Background Opacity
             val prefs = context.getSharedPreferences("com.antigravity.transparentcalendar.prefs", Context.MODE_PRIVATE)
             val opacity = prefs.getInt("opacity_$appWidgetId", 50) // Default 50%
-            
+
             val alpha = (opacity * 255) / 100
             val backgroundColor = Color.argb(alpha, 0, 0, 0)
             views.setInt(R.id.widget_root, "setBackgroundColor", backgroundColor)
-            
+
+            // Set up background click to open Calendar app
+            try {
+                // Try to find the calendar app launch intent
+                val calendarIntent = Intent(Intent.ACTION_MAIN).apply {
+                    addCategory(Intent.CATEGORY_APP_CALENDAR)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+
+                // If the generic intent doesn't resolve (e.g. some devices), fallback to standard content URI
+                 val finalIntent = if (calendarIntent.resolveActivity(context.packageManager) != null) {
+                    calendarIntent
+                } else {
+                     val builder = CalendarContract.CONTENT_URI.buildUpon()
+                     builder.appendPath("time")
+                     android.content.ContentUris.appendId(builder, System.currentTimeMillis())
+                     Intent(Intent.ACTION_VIEW).apply {
+                         data = builder.build()
+                     }
+                }
+
+                val backgroundPendingIntent = PendingIntent.getActivity(
+                    context,
+                    2, // Unique request code
+                    finalIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+                views.setOnClickPendingIntent(R.id.widget_root, backgroundPendingIntent)
+            } catch (e: Exception) {
+                Log.e("CalendarWidgetProvider", "Error setting background intent", e)
+            }
+
             // Set up "+" button pending intent
             try {
                 val addEventIntent = Intent(Intent.ACTION_INSERT)
                 addEventIntent.data = CalendarContract.Events.CONTENT_URI
-                
+
                 var flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                
+
                 val addPendingIntent = PendingIntent.getActivity(
-                    context, 
-                    0, 
-                    addEventIntent, 
+                    context,
+                    0,
+                    addEventIntent,
                     flags
                 )
                 views.setOnClickPendingIntent(R.id.add_button, addPendingIntent)
@@ -75,20 +106,20 @@ class CalendarWidgetProvider : AppWidgetProvider() {
             try {
                 val clickIntentTemplate = Intent(Intent.ACTION_VIEW)
                 // clickIntentTemplate.data = CalendarContract.Events.CONTENT_URI // Removed to allow fillInIntent to set data
-                
+
                 var flags = PendingIntent.FLAG_UPDATE_CURRENT
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                     flags = flags or PendingIntent.FLAG_MUTABLE
                 }
                 if (android.os.Build.VERSION.SDK_INT >= 34) {
                     // FLAG_ALLOW_UNSAFE_IMPLICIT_INTENT = 16777216
-                    flags = flags or 16777216 
+                    flags = flags or 16777216
                 }
-                
+
                 val clickPendingIntent = PendingIntent.getActivity(
-                    context, 
-                    1, 
-                    clickIntentTemplate, 
+                    context,
+                    1,
+                    clickIntentTemplate,
                     flags
                 )
                 views.setPendingIntentTemplate(R.id.event_list, clickPendingIntent)
@@ -99,24 +130,24 @@ class CalendarWidgetProvider : AppWidgetProvider() {
             appWidgetManager.updateAppWidget(appWidgetId, views)
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.event_list)
             Log.d("CalendarWidgetProvider", "updateAppWidget finished for ID: $appWidgetId")
-            
+
             // Schedule the job to monitor changes
             CalendarUpdateJobService.scheduleJob(context)
         }
     }
-    
+
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         val action = intent.action
         if (Intent.ACTION_TIMEZONE_CHANGED == action ||
             Intent.ACTION_TIME_CHANGED == action ||
             Intent.ACTION_DATE_CHANGED == action) {
-            
+
             Log.d("CalendarWidgetProvider", "Time/Date change detected: $action")
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val componentName = ComponentName(context, CalendarWidgetProvider::class.java)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
-            
+
             onUpdate(context, appWidgetManager, appWidgetIds)
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.event_list)
         }
