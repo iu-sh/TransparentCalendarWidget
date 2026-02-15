@@ -20,12 +20,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: gradle
 
-      # Removed the "chmod" step because we are using global gradle now
+      # This step installs Gradle 8.2 specifically to fix the version mismatch
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.2'
 
       - name: Build Debug APK
-        # We use 'gradle' instead of './gradlew' because the wrapper script is missing
         run: gradle assembleDebug
 
       - name: Upload APK Artifact
