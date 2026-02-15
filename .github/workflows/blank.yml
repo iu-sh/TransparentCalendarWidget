@@ -10,11 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    # Global directory for all build steps to prevent path-joining errors
-    defaults:
-      run:
-        working-directory: TransparentCalendarWidget-5e950a682d81f9e1f856ef52100fdfdc03b2e070
 
     steps:
       - name: Checkout Source Code
@@ -37,5 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TransparentCalendar-Debug
-          # Path relative to the working-directory set above
-          path: TransparentCalendarWidget-5e950a682d81f9e1f856ef52100fdfdc03b2e070/app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/debug/*.apk
