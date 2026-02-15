@@ -5,11 +5,16 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
-  workflow_dispatch: # Allows manual triggering from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # This tells GitHub to run all steps inside your project subfolder
+    defaults:
+      run:
+        working-directory: ./TransparentCalendarWidget-5e950a682d81f9e1f856ef52100fdfdc03b2e070
 
     steps:
       - name: Checkout Source Code
@@ -18,7 +23,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17' # Matches project compiler target
+          java-version: '17' # Matches project's targetCompatibility
           distribution: 'temurin'
           cache: gradle
 
@@ -32,4 +37,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TransparentCalendar-Debug
-          path: app/build/outputs/apk/debug/*.apk
+          # Path relative to the working-directory
+          path: TransparentCalendarWidget-5e950a682d81f9e1f856ef52100fdfdc03b2e070/app/build/outputs/apk/debug/*.apk
