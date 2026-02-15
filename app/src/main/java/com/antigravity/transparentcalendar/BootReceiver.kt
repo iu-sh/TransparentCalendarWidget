@@ -22,6 +22,9 @@ class BootReceiver : BroadcastReceiver() {
             
             // Reschedule all upcoming alarms
             EventAlarmScheduler.scheduleUpcomingAlarms(context)
+
+            // Reschedule the calendar monitoring job
+            CalendarUpdateJobService.scheduleJob(context)
         }
     }
 }

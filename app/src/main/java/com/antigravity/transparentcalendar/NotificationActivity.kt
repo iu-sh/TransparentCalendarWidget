@@ -69,7 +69,8 @@ class NotificationActivity : Activity() {
         }
         
         // Keep screen on while this activity is visible
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        // Removed to allow screen timeout
+        // window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
     
     private fun setupUI() {

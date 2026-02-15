@@ -24,6 +24,12 @@ class CalendarUpdateJobService : JobService() {
                         JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS
                     )
                 )
+                .addTriggerContentUri(
+                    JobInfo.TriggerContentUri(
+                        android.provider.CalendarContract.Calendars.CONTENT_URI,
+                        JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS
+                    )
+                )
                 // Add a small delay to batch updates if multiple changes happen quickly
                 .setTriggerContentUpdateDelay(500) 
                 .setTriggerContentMaxDelay(2000)
