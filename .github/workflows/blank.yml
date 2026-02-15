@@ -18,15 +18,15 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17' # Matches project SDK
+          java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      # Removed the "chmod" step because we are using global gradle now
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        # We use 'gradle' instead of './gradlew' because the wrapper script is missing
+        run: gradle assembleDebug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
