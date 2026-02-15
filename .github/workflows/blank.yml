@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    # We use the explicit subfolder name from your repo structure
+    # Global directory for all build steps to prevent path-joining errors
     defaults:
       run:
         working-directory: TransparentCalendarWidget-5e950a682d81f9e1f856ef52100fdfdc03b2e070
@@ -23,7 +23,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17' # Matches the project's language level
+          java-version: '17' # Matches project SDK
           distribution: 'temurin'
           cache: gradle
 
@@ -37,5 +37,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TransparentCalendar-Debug
-          # Path must point to the APK within the subfolder structure
+          # Path relative to the working-directory set above
           path: TransparentCalendarWidget-5e950a682d81f9e1f856ef52100fdfdc03b2e070/app/build/outputs/apk/debug/*.apk
